@@ -1,1 +1,25 @@
+
+sudo: required
 language: java
+
+jdk:
+  - oraclejdk8
+
+script:
+  - mvn clean cobertura:cobertura -Dtest=EndToEndStoppingTest#testWithHttpClient -DfailIfNoTests=false
+
+before_deploy:
+- tar -zcvf coverage-result.tar.gz /home/travis/build/leusonmario/LittleProxy/target/site/cobertura
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "e1FyAXCcTRbyNoIMQonGKAqOdfBwnrPULp/gu4MUGVL4dyRkD5Bzz+NOfn7hU+xWKWqY2blV4/BBTPjtRKOADyY9PZI7ZHqzin5QWE0BmLOIuBPdCCKfLhhxkaKdfZiuS/mL7/xnbCkMJY8DCL8IJSsQUy7DPvJmymUsa/na6k89kNu99tJr5rfw2tK9I9FuWgjczkvZmVx8opnPcY2cWne4D2T+sNnyazlK1buoUak13742DwrOEGt1LXmV9oPmFt5G/T8Z4YtboQRl5Z+9UYZ5anjq5itDtsQmdUpGalt8X0BwBH5SDAvmfAJlCpNGTmHsNBKtj+52jFP/NemtBoIm2Yhj8KcOCCRPpoKyREqJaKMh7fgYVtyAZ8yN+ZFEv4GkjN1kr2gg4ruiU+SbjtGUXBj1Boca3vblx8tHnuOZDOqC7JPJKSoujIxxPWkVUnush0KyBxgk7MPd6HHF4qbvS2p8d+dIj53+7aAQcS7B1361cCQL/riuunH/SDwavg2SW8ff66e90tVJ2sr9tdmIjAus4PUsCjkvBfB2WijIdXXq6bRdlDyY1l5dEgsFeRdaBz0gCI/ioe0i98nYp34aF/923Kpxevn2aV6vi9aGdUX2q/gWYxLJqNDrnWuIm3VR2lonkdwMtBza9p0zyp+XzMK114m4E/qZMf9LBvo="
+
+
+  file: coverage-result.tar.gz
+  file_glob: true
+  overwrite: true
+  skip_cleanup: true
+  on:
+    tags: true
