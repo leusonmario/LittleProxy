@@ -203,6 +203,7 @@
         <artifactId>site-maven-plugin</artifactId>
         <version>0.7</version>
         <configuration>
+<testFailureIgnore>true</testFailureIgnore>
           <message>Building site for ${project.version}</message>
           <repositoryName>LittleProxy</repositoryName>
           <repositoryOwner>adamfisk</repositoryOwner>
@@ -258,6 +259,7 @@
               <artifactId>findbugs-maven-plugin</artifactId>
               <version>2.5.2</version>
               <configuration>
+<testFailureIgnore>true</testFailureIgnore>
                 <!-- Optional directory to put findbugs xml report -->
               </configuration>
             </plugin>
@@ -357,7 +359,18 @@
       </plugin>
 -->
   
-    </plugins>
+    <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.7</version>
+          <configuration>
+              <format>xml</format>
+              <maxmem>256m</maxmem>
+              <!-- aggregated reports for multi-module projects -->
+              <aggregate>true</aggregate>
+          </configuration>
+         </plugin>
+        </plugins>
   </build>
 
   <reporting>
